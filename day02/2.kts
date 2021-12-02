@@ -1,16 +1,11 @@
 val input = java.io.File("input.txt").readLines()
-var x = 0
-var y = 0
-var aim = 0
-input.map{ it.split(" ") }
-    .forEach{
-        when (it[0]) {
-            "forward" -> {
-                x += it[1].toInt()
-                y += aim*it[1].toInt()
-            }
-            "up" -> aim -= it[1].toInt()
-            "down" -> aim += it[1].toInt()
-        }
-    }
+var (x,y,aim) = listOf(0,0,0)
+input.map{ it.split(" ") }.forEach{ (command, amount) ->
+    when (command) {
+        "up" -> aim -= amount.toInt()
+        "down" -> aim += amount.toInt()
+        "forward" -> {
+            x += amount.toInt()
+            y += aim * amount.toInt()
+}}}
 println("Answer is ${x*y}")
