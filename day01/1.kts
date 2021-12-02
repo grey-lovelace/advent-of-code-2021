@@ -1,6 +1,5 @@
 import java.io.File
 
-val input = File("input.txt").readLines()
-val answer = input.indices
-    .count{it > 0 && input[it].toInt() > input[it-1].toInt()}
+val input = File("input.txt").readLines().map{ it.toInt() }
+val answer = (1..input.lastIndex).count{ input[it] > input[it-1] }
 println("Answer is $answer")
