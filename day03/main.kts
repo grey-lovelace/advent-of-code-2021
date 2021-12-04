@@ -1,6 +1,6 @@
-assert(198 == part1("sample.txt"))
+check(198 == part1("sample.txt"))
 println("Part1 = ${part1("input.txt")}")
-assert(230 == part2("sample.txt"))
+check(230 == part2("sample.txt"))
 println("Part2 = ${part2("input.txt")}")
 
 fun part1(fileName: String) : Int {
