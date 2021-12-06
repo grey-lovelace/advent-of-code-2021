@@ -1,10 +1,10 @@
-check(150 == part1("sample.txt"))
-println("Part1 = ${part1("input.txt")}")
-check(900 == part2("sample.txt"))
-println("Part2 = ${part2("input.txt")}")
+check(150 == part1(java.io.File("sample.txt")))
+println("Part1 = ${part1(java.io.File("input.txt"))}")
+check(900 == part2(java.io.File("sample.txt")))
+println("Part2 = ${part2(java.io.File("input.txt"))}")
 
-fun part1(fileName: String) : Int {
-    val input = java.io.File(fileName).readLines().map{ it.split(" ") }
+fun part1(file: java.io.File) : Int {
+    val input = file.readLines().map{ it.split(" ") }
     var (x,y) = listOf(0,0)
     input.forEach{ (command, amount) ->
         when (command) {
@@ -15,8 +15,8 @@ fun part1(fileName: String) : Int {
     return x * y
 }
 
-fun part2(fileName: String) : Int {
-    val input = java.io.File(fileName).readLines().map{ it.split(" ") }
+fun part2(file: java.io.File) : Int {
+    val input = file.readLines().map{ it.split(" ") }
     var (x,y,aim) = listOf(0,0,0)
     input.forEach{ (command, amount) ->
         when (command) {

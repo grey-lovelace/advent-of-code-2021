@@ -1,17 +1,17 @@
-check(198 == part1("sample.txt"))
-println("Part1 = ${part1("input.txt")}")
-check(230 == part2("sample.txt"))
-println("Part2 = ${part2("input.txt")}")
+check(198 == part1(java.io.File("sample.txt")))
+println("Part1 = ${part1(java.io.File("input.txt"))}")
+check(230 == part2(java.io.File("sample.txt")))
+println("Part2 = ${part2(java.io.File("input.txt"))}")
 
-fun part1(fileName: String) : Int {
-    val input = java.io.File(fileName).readLines()
+fun part1(file: java.io.File) : Int {
+    val input = file.readLines()
     var gamma = input[0].indices.map{ input.mostCommonByIndex(it) }.joinToString("")
     var epsilon = gamma.map{ it.opp() }.joinToString("")
     return gamma.toInt(2) * epsilon.toInt(2)
 }
 
-fun part2(fileName: String) : Int {
-    val input = java.io.File(fileName).readLines()
+fun part2(file: java.io.File) : Int {
+    val input = file.readLines()
     var (oxy, co2) = listOf(input.toList(),input.toList())
     input[0].indices.forEach{ i ->
         if(oxy.size > 1) oxy = oxy.filter{ it.get(i) == oxy.mostCommonByIndex(i) }

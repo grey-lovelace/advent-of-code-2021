@@ -1,18 +1,18 @@
-check(5 == part1("sample.txt"))
-println("Part1 = ${part1("input.txt")}")
-check(12 == part2("sample.txt"))
-println("Part2 = ${part2("input.txt")}")
+check(5 == part1(java.io.File("sample.txt")))
+println("Part1 = ${part1(java.io.File("input.txt"))}")
+check(12 == part2(java.io.File("sample.txt")))
+println("Part2 = ${part2(java.io.File("input.txt"))}")
 
-fun part1(fileName: String) : Int {
-    return countPoints(fileName, false)
+fun part1(file: java.io.File) : Int {
+    return countPoints(file, false)
 }
 
-fun part2(fileName: String) : Int {
-    return countPoints(fileName, true)
+fun part2(file: java.io.File) : Int {
+    return countPoints(file, true)
 }
 
-fun countPoints(fileName: String, includeDiagonals: Boolean): Int {
-    return java.io.File(fileName).readLines().map{
+fun countPoints(file: java.io.File, includeDiagonals: Boolean): Int {
+    return file.readLines().map{
         Line(Regex("(\\d+),(\\d+) -> (\\d+),(\\d+)").find(it)!!.destructured.toList())
     }.filter{ includeDiagonals || !it.isDiagonal }
     .flatMap{ it.allPoints() }

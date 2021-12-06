@@ -1,18 +1,18 @@
-check(4512 == part1("sample.txt"))
-println("Part1 = ${part1("input.txt")}")
-check(1924 == part2("sample.txt"))
-println("Part2 = ${part2("input.txt")}")
+check(4512 == part1(java.io.File("sample.txt")))
+println("Part1 = ${part1(java.io.File("input.txt"))}")
+check(1924 == part2(java.io.File("sample.txt")))
+println("Part2 = ${part2(java.io.File("input.txt"))}")
 
-fun part1(fileName: String) : Int {
-    return BingoGame(fileName).cards.minByOrNull{ it.winningRound }!!.score()
+fun part1(file: java.io.File) : Int {
+    return BingoGame(file).cards.minByOrNull{ it.winningRound }!!.score()
 }
 
-fun part2(fileName: String) : Int {
-    return BingoGame(fileName).cards.maxByOrNull{ it.winningRound }!!.score()
+fun part2(file: java.io.File) : Int {
+    return BingoGame(file).cards.maxByOrNull{ it.winningRound }!!.score()
 }
 
-class BingoGame(fileName : String) {
-    val input = java.io.File(fileName).readText().split(Regex("(\r?\n){2}"))
+class BingoGame(file: java.io.File) {
+    val input = file.readText().split(Regex("(\r?\n){2}"))
     val calls = input[0].split(",").map{ it.toInt() }
     val cards = (1..input.lastIndex).map{ Card(input[it], calls) }
 }
