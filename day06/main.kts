@@ -13,12 +13,13 @@ fun part2(file: java.io.File) : Long {
 
 fun calcFish(file: java.io.File, days: Int): Long{
     var input = file.readText().split(",").map{ it.toInt() }
-    var tracker = (0..8).map{ i -> i to input.count{it==i}.toLong() }
-        .toMap().toMutableMap()
+    var tracker = (0..8).associateWith{ i -> input.count{ it==i }.toLong() }
     (0 until days).forEach { _ ->
-        tracker = tracker.map{ (k,v) -> (k - 1) to v }.toMap().toMutableMap()
-        tracker += mapOf(8 to tracker[-1]!!, 6 to (tracker[-1]!! + tracker[6]!!))
-        tracker.remove(-1)
-    }
+        tracker = (0..8).associateWith{
+            when(it){
+                8 -> tracker[0]!!
+                6 -> tracker[0]!! + tracker[7]!!
+                else -> tracker[it+1]!!
+    }}}
     return tracker.values.sum()
 }
