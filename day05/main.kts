@@ -15,9 +15,8 @@ fun countPoints(file: java.io.File, includeDiagonals: Boolean): Int {
     return file.readLines().map{
         Line(Regex("(\\d+),(\\d+) -> (\\d+),(\\d+)").find(it)!!.destructured.toList())
     }.filter{ includeDiagonals || !it.isDiagonal }
-    .flatMap{ it.allPoints() }
-    .groupingBy{ it }.eachCount()
-    .count{ (point,timesOccurred) -> timesOccurred  > 1 }
+    .flatMap{ it.allPoints() }.groupingBy{ it }.eachCount()
+    .count{ it.value  > 1 }
 }
 
 class Line(pointList: List<String>){
@@ -28,6 +27,11 @@ class Line(pointList: List<String>){
         if(x2<x1) xs = xs.reversed()
         var ys = (minOf(y1,y2)..maxOf(y1,y2)).toList()
         if(y2<y1) ys = ys.reversed()
-        return (0..maxOf(xs.lastIndex, ys.lastIndex)).map{ i -> Pair(xs[minOf(i,xs.lastIndex)],ys[minOf(i,ys.lastIndex)]) }
+        return (0..maxOf(xs.lastIndex, ys.lastIndex)).map{ i ->
+            Pair(xs[minOf(i,xs.lastIndex)],ys[minOf(i,ys.lastIndex)])
+        }
     }
 }
+
+//Part1 = 7436
+//Part2 = 21104
