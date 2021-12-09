@@ -9,28 +9,24 @@ fun part1(file: java.io.File) : Int {
 }
 
 fun part2(file: java.io.File) : Int {
+    fun String.abc() = String(toCharArray().apply{ sort() })
+    fun matchByLettersInCommon( searchList: List<String>?, matchString: String?, lettersToMatchOn: Int ) =
+        searchList!!.first{ it.count{ letter -> matchString!!.contains(letter) } == lettersToMatchOn }
     return file.readLines().map{ line ->
         val (otherData, output) = line.split("|").map{ it.trim().split(" ") }
-        val allValsMap = (otherData + output).distinct().groupBy{it.length}
-        val finalMap = mutableMapOf(
-            1 to allValsMap[2]!![0],
-            7 to allValsMap[3]!![0],
-            4 to allValsMap[4]!![0],
-            8 to allValsMap[7]!![0]
-        )
-        finalMap += 2 to allValsMap[5]!!.first{ it.count{ letter -> finalMap[4]!!.contains(letter) } == 2 }
-        finalMap += 3 to allValsMap[5]!!.first{ it.count{ letter -> finalMap[1]!!.contains(letter) } == 2 }
-        finalMap += 5 to allValsMap[5]!!.first{ it.count{ letter -> finalMap[2]!!.contains(letter) } == 3 }
-        finalMap += 0 to allValsMap[6]!!.first{ it.count{ letter -> finalMap[5]!!.contains(letter) } == 4 }
-        finalMap += 9 to allValsMap[6]!!.first{ it.count{ letter -> finalMap[4]!!.contains(letter) } == 4 }
-        finalMap += 6 to allValsMap[6]!!.first{
-            it.count{ letter -> finalMap[0]!!.contains(letter) } == 5 &&
-            it.count{ letter -> finalMap[9]!!.contains(letter) } == 5
-        }
-        val finalMapSwitched = finalMap.map{ it.value.sort() to it.key }.toMap()
-        output.map{ finalMapSwitched[it.sort()].toString() }.joinToString("").toInt()
+        val lengthMap : Map<Int,List<String>> = (otherData + output).distinct().groupBy{it.length}
+        val decodeMap = mutableMapOf<Int,String>()
+        decodeMap[1] = lengthMap[2]!![0]
+        decodeMap[4] = lengthMap[4]!![0]
+        decodeMap[7] = lengthMap[3]!![0]
+        decodeMap[8] = lengthMap[7]!![0]
+        decodeMap[2] = matchByLettersInCommon(lengthMap[5], decodeMap[4], 2)
+        decodeMap[3] = matchByLettersInCommon(lengthMap[5], decodeMap[1], 2)
+        decodeMap[5] = matchByLettersInCommon(lengthMap[5], decodeMap[2], 3)
+        decodeMap[0] = matchByLettersInCommon(lengthMap[6], decodeMap[5], 4)
+        decodeMap[6] = matchByLettersInCommon(lengthMap[6], decodeMap[1], 1)
+        decodeMap[9] = matchByLettersInCommon(lengthMap[6], decodeMap[4], 4)
+        var switchedDecoder = decodeMap.map{ it.value.abc() to it.key }.toMap()
+        output.map{ switchedDecoder[it.abc()].toString() }.joinToString("").toInt()
     }.sum()
 }
-
-fun String.sort() = String(toCharArray().apply { sort() })
-
