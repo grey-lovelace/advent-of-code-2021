@@ -14,7 +14,7 @@ fun part1(file: java.io.File) : Int {
             if(pairs.keys.contains(c)) stack.add(c)
             else if(c == pairs[stack.last()]) stack.removeLast()
             else {
-                answer += scores[c]
+                answer += scores[c]!!
                 break
             }
         }
